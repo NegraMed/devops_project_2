@@ -44,7 +44,7 @@ pipeline {
             }
         }
 
-        stage('Deploy Artifact to Nexus') {git 
+        stage('Deploy Artifact to Nexus') {
             steps {
                 sh 'mvn deploy -Dmaven.test.skip=true -Pprod'
             }
