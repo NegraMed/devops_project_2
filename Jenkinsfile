@@ -1,7 +1,9 @@
 pipeline {
 
     agent { label 'maven' }
-
+    environment{ 
+        DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+    }
 
     stages {
         stage ('GIT') {
@@ -48,12 +50,12 @@ pipeline {
             }
         }
 
-        //stage('Deploy Image to DockerHub') {
-          //  steps {
-            //	sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
-              //  sh 'sudo docker push farjo/tpachat';
-            //}
-        //}
+        stage('Deploy Image to DockerHub') {
+            steps {
+            	sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
+                sh 'sudo docker push tpachat';
+            }
+        }
 
         stage("Start Containers : with docker compose") {
             steps {
