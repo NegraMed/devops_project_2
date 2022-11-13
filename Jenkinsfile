@@ -32,37 +32,29 @@ pipeline {
             }
         }
 
-        stage("Build Artifact") {
-            steps {
-                sh "mvn clean package -Pprod";
-            }
-        }
-
         stage("Build Docker image") {
             steps {
                 sh "sudo docker build -t farjo/tpachat .";
             }
         }
 
-        stage("push Docker image from nexus repo") {
+        stage("Push Docker image to nexus Private Repo") {
             steps {
                 sh "sudo docker login -u admin -p nexus 192.168.1.50:8082/repository/docker-hosted-validation/";
                 sh "sudo docker tag farjo/tpachat 192.168.1.50:8082/docker-hosted-validation/validation";
                 sh "sudo docker push 192.168.1.50:8082/docker-hosted-validation/validation";
             }
         }
-
-
-        stage("Build Docker image from nexus repo") {
-            steps {
-                sh "sudo docker pull 192.168.1.50:8082/docker-hosted-validation/validation";
-            }
-        }
-
         
         stage('Deploy Artifact to Nexus') {
             steps {
                 sh 'mvn deploy -Dmaven.test.skip=true -Pprod'
+            }
+        }
+
+        stage("Build Docker image from nexus repo") {
+            steps {
+                sh "sudo docker pull 192.168.1.50:8082/docker-hosted-validation/validation";
             }
         }
 
