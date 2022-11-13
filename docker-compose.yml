@@ -1,31 +1,17 @@
 version: '2'
 services:
-  sonarqube:
-    image : sonarqube:8.9.7-community
-    ports :
-    - "9000:9000"
-    - "9092:9092"
-    volumes:
-    - /home/sonarqube:/opt/sonarqube/data
-    restart: on-failure
-  nexus:
-    image : sonatype/nexus3
-    ports :
-    - "8081:8081"
-    volumes:
-    - /home/nexus-data:/sonatype-work
-    restart: on-failure
   mysql:
     image : mysql/mysql-server:latest
     ports :
     - "3306:3306"
     volumes:
     - /home/mysqldata:/var/lib/mysql
-  prometheus:
-    image : prom/prometheus
-    ports :
-    - "9090:9090"
-  grafana:
-    image : grafana/grafana:latest
-    ports :
-    - "3000:3000"
+  service_app:
+    image : tpachat
+    container_name:  tpachat
+    restart: on-failure
+    ports:
+      - 9091:9091
+    depends_on:
+      - mysql
+ 
