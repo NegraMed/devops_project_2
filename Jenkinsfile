@@ -1,5 +1,8 @@
 pipeline {
     agent {label 'maven'}
+    environment{ 
+        DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+    }
 
     stages {
         stage('Hello') {
@@ -45,22 +48,30 @@ pipeline {
               //  sh "sudo docker build -t tpachato .";
             //}
         //}
-            stage('Deploy Artifact to Nexus') {
+        stage('Deploy Artifact to Nexus') {
             steps {
                 sh 'mvn deploy -Dmaven.test.skip=true -Pprod'
             }
         }
+        stage('Deploy Image to DockerHub') {
+            steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
+                sh 'sudo docker push aminenessah/tpachat';
+            }
+        }
+
         
         stage("docker compose") {
             steps {
                 sh "sudo docker compose up -d";
             }
         }
-        stage('Deployment') {
-            steps {
-                sh 'mvn deploy -Dmaven.test.skip=true'
-            }
+        post {
+        always {
+            cleanWs()
         }
+    }
+     
         
     }
 }
