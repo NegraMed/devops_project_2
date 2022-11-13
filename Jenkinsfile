@@ -66,7 +66,7 @@ pipeline {
                 sh "sudo docker compose up -d";
             }
         }
-    
+    }
     post {
         always {
             cleanWs()
@@ -74,5 +74,5 @@ pipeline {
     }
      
         
-    }
+    
 }
