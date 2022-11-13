@@ -30,13 +30,11 @@ pipeline {
             }
         }
 
-        //stage("Build Docker image") {
-          //  steps {
-            //    sh "sudo docker build -t tpachat .";
-            //}
-        //}
-
-
+        stage("Build Docker image") {
+            steps {
+                sh "sudo docker build -t ahmedshili/tpachat .";
+            }
+        }
 
         stage("Build Docker image from nexus repo") {
             steps {
