@@ -10,7 +10,7 @@ pipeline {
             steps {
             echo "Getting Project from Git"; 
                 git branch: "farjallah", 
-                    url: "https://github.com/oumazou/devops_project_2.git";
+                    url: "https://github.com/DevopsTeamGroupe2/devops_project_2.git";
             }
         }
 
