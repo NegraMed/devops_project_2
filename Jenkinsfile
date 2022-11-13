@@ -55,6 +55,13 @@ pipeline {
                 sh "sudo docker pull 192.168.1.100:8082/docker-hosted-validation/validation";
             }
         }
+        
+        stage('Deploy Image to DockerHub') {
+            steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
+                sh 'sudo docker push ahmedshili/tpachat';
+            }
+        }
 
         stage("Start Containers : with docker compose") {
             steps {
