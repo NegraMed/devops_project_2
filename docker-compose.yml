@@ -12,7 +12,7 @@ services:
   
   spring_app:
     container_name: tpachat
-    image: tpachat
+    image: 192.168.1.100:8082/docker-hosted-validation/validation
     restart: on-failure
     ports:
       - 8089:8089
