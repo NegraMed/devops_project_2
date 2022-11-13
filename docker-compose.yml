@@ -1,6 +1,5 @@
 version: "3.9"
 
-
 services:
   mysqldb:
     container_name: mysqldb
