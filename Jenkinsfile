@@ -38,11 +38,11 @@ pipeline {
             }
         }
 
-        //stage("Build Docker image") {
-           // steps {
-            //    sh "sudo docker build -t farjo/tpachat .";
-          //  }
-        //}
+        stage("Build Docker image") {
+            steps {
+                sh "sudo docker build -t farjo/tpachat .";
+            }
+        }
 
         stage("push Docker image from nexus repo") {
             steps {
