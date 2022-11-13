@@ -70,6 +70,10 @@ pipeline {
                 sh "sudo docker compose down";
             }   
         }   
+
+
+
+        
     }
     post {
         always {
