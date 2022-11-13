@@ -30,11 +30,11 @@ pipeline {
             }
         }
 
-        //stage("Build Docker image") {
-          //  steps {
-            //    sh "sudo docker build -t tpachat .";
-            //}
-        //}
+        stage("Build Docker image") {
+            steps {
+                sh "sudo docker build -t ahmed/tpachat .";
+            }
+        }
 
 
 
@@ -53,7 +53,7 @@ pipeline {
         stage('Deploy Image to DockerHub') {
             steps {
             	sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
-                sh 'sudo docker push 192.168.1.100:8082/docker-hosted-validation/validation';
+                sh 'sudo docker push ahmed/tpachat';
             }
         }
 
