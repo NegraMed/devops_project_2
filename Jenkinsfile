@@ -15,16 +15,22 @@ pipeline {
                     url: "https://github.com/DevopsTeamGroupe2/devops_project_2.git";
             }
         }
-               stage("Build") {
+          stage('Unit Testing : Test Dynamique Junit and  Mockito'){
             steps {
-                sh "ls"
-                sh "mvn compile";
+                sh "mvn clean test -Ptest";
             }
         }
+               
+        stage("Build Artifact") {
+            steps {
+                sh "mvn clean package -Pprod";
+            }
+            }
+
         
         stage("Sonar") {
             steps {
-                sh 'mvn sonar:sonar -Dsonar.login="admin" -Dsonar.password="amine"'
+                sh 'mvn sonar:sonar -Dsonar.login="admin" -Dsonar.password="amine" -Ptest'
             }
         }
         
