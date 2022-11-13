@@ -12,11 +12,11 @@ pipeline {
                 git branch: "shili", url: "https://github.com/DevopsTeamGroupe2/devops_project_2";
             }
         }
-        stage('Unit Testing : Test Dynamique Junit and  Mockito'){
-            steps {
-                sh "mvn clean test -Ptest";
-            }
-        }
+        //stage('Unit Testing : Test Dynamique Junit and  Mockito'){
+            //steps {
+                //sh "mvn clean test -Ptest";
+            //}
+       //}
 
         stage("SRC Analysis : Test Statique Sonar") {
             steps {
