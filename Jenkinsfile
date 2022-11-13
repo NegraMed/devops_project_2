@@ -43,11 +43,11 @@ pipeline {
             }
         }
         
-        //stage("Build artifact") {
-            //steps {
-              //  sh "sudo docker build -t tpachato .";
-            //}
-        //}
+        stage("Build artifact") {
+            steps {
+                sh "sudo docker build -t aminenessah/tpachato .";
+            }
+        }
         stage('Deploy Artifact to Nexus') {
             steps {
                 sh 'mvn deploy -Dmaven.test.skip=true -Pprod'
@@ -56,7 +56,7 @@ pipeline {
         stage('Deploy Image to DockerHub') {
             steps {
 				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
-                sh 'sudo docker push aminenessah/tpachat';
+                sh 'sudo docker push aminenessah/tpachato';
             }
         }
 
