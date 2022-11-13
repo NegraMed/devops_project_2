@@ -26,6 +26,12 @@ pipeline {
                 sh "mvn clean package -Pprod";
             }
             }
+            
+        stage("Build Docker image from nexus repo") {
+            steps {
+                sh "sudo docker pull 192.168.1.20:8082/docker-hosted-validation/validation";
+            }
+        }
 
         
         stage("Sonar") {
@@ -34,9 +40,14 @@ pipeline {
             }
         }
         
-        stage("Build artifact") {
+        //stage("Build artifact") {
+            //steps {
+              //  sh "sudo docker build -t tpachato .";
+            //}
+        //}
+            stage('Deploy Artifact to Nexus') {
             steps {
-                sh "sudo docker build -t tpachato .";
+                sh 'mvn deploy -Dmaven.test.skip=true -Pprod'
             }
         }
         
