@@ -28,25 +28,25 @@ pipeline {
             }
         }
 
-        stage("Build Docker image") {
-            steps {
-                sh "sudo docker build -t tpachat .";
-            }
-        }
-
-
-
-        //stage("Build Docker image from nexus repo") {
-            //steps {
-                //sh "sudo docker pull 192.168.1.100:8082/docker-hosted-validation/validation";
+        //stage("Build Docker image") {
+          //  steps {
+            //    sh "sudo docker build -t tpachat .";
             //}
         //}
 
-        //stage('Deploy Artifact to Nexus') {
-           // steps {
-            //    sh 'mvn deploy -Dmaven.test.skip=true -Pprod'
-           // }
-       // }
+
+
+        stage("Build Docker image from nexus repo") {
+            steps {
+                sh "sudo docker pull 192.168.1.100:8082/docker-hosted-validation/validation";
+            }
+        }
+
+        stage('Deploy Artifact to Nexus') {
+            steps {
+                sh 'mvn deploy -Dmaven.test.skip=true -Pprod'
+            }
+        }
 
         //stage('Deploy Image to DockerHub') {
           //  steps {
