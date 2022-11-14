@@ -5,6 +5,9 @@ services:
     container_name:  mysql
     ports :
     - "3306:3306"
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
     
   service_app:
     image : oumazou/tpachatproject
