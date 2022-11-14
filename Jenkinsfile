@@ -4,7 +4,7 @@ pipeline {
     environment{ 
         DOCKERHUB_CREDENTIALS=credentials('dockerhub')
     }
-/*
+
     stages {
         stage ('Git checkout branch') {
             steps {
@@ -13,7 +13,7 @@ pipeline {
                     url: "https://github.com/DevopsTeamGroupe2/devops_project_2.git";
             }
         }
-
+        /*
         stage('Unit Testing : Test Dynamique Junit and  Mockito'){
             steps {
                 sh "mvn clean test -Ptest";
