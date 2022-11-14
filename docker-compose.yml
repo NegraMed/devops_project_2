@@ -7,7 +7,7 @@ services:
     volumes:
     - /home/mysqldata:/var/lib/mysql
   service_app:
-    image : tpachat
+    image : oumazou/tpachatproject
     container_name:  tpachat
     restart: on-failure
     ports:
