@@ -30,11 +30,11 @@ pipeline {
             }
         }
 
-        //stage("Build Docker image") {
-        //    steps {
-        //        sh "sudo docker build -t ahmedshili/tpachat .";
-        //    }
-        //}
+        stage("Build Docker image") {
+            steps {
+                sh "sudo docker build -t ahmedshili/tpachat .";
+            }
+        }
 
         stage("Push Docker image to nexus Private Repo") {
             steps {
@@ -56,12 +56,12 @@ pipeline {
             }
         }
         
-        //stage('Deploy Image to DockerHub') {
-        //    steps {
-		//		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
-        //        sh 'sudo docker push ahmedshili/tpachat';
-        //    }
-        //}
+        stage('Deploy Image to DockerHub') {
+            steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
+                sh 'sudo docker push ahmedshili/tpachat';
+            }
+        }
 
         stage("Start Containers : with docker compose") {
             steps {
@@ -74,10 +74,14 @@ pipeline {
                 sh "sudo docker compose down";
             }
         }
+        stage("docker compose down") {
+            steps {
+                emailext body: '$DEFAULT_CONTENT', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: '$DEFAULT_SUBJECT'
+            }
+        }
     }
     post {
         always {
-            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
             cleanWs()
         }
     }
