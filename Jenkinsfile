@@ -79,9 +79,8 @@ pipeline {
     }
     post {
         always {
-            mail to: "ahmed.farjallah@esprit.tn",
-            subject: "Test Email",
-            body: "Test"
+            emailext body: '$DEFAULT_CONTENT', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: '$DEFAULT_SUBJECT'
+            cleanWs()
         }
     }
 
