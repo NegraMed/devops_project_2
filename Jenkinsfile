@@ -77,7 +77,7 @@ pipeline {
     }
     post {
         always {
-            emailext body: 'Jenkins Pipeline done successfully', recipientProviders: [[$class: 'ahmed.shili@esprit.tn']], subject: 'Jenkins Pipeline'
+            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
             cleanWs()
         }
     }
