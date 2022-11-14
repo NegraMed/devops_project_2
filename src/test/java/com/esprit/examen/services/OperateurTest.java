@@ -1,8 +1,6 @@
 package com.esprit.examen.services;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -11,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import com.example.tpachatproject.entities.Operateur;
-import com.example.tpachatproject.repositories.OperateurRepository;
-import com.example.tpachatproject.services.OperateurServiceImpl;
+import com.esprit.examen.entities.Operateur;
+import com.esprit.examen.repositories.OperateurRepository;
+import com.esprit.examen.services.OperateurServiceImpl;
 
 
 
@@ -26,7 +24,7 @@ import com.example.tpachatproject.services.OperateurServiceImpl;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class TestOperateur {
+public class OperateurTest {
 
 
 OperateurRepository operateurRepository=Mockito.mock(OperateurRepository.class);
