@@ -30,11 +30,11 @@ pipeline {
             }
         }
 
-        stage("Build Docker image") {
+        /*stage("Build Docker image") {
             steps {
                 sh "sudo docker build -t ahmedshili/tpachat .";
             }
-        }
+        }*/
 
         stage("Push Docker image to nexus Private Repo") {
             steps {
@@ -56,12 +56,12 @@ pipeline {
             }
         }
         
-        stage('Deploy Image to DockerHub') {
+        /*stage('Deploy Image to DockerHub') {
             steps {
 				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
                 sh 'sudo docker push ahmedshili/tpachat';
             }
-        }
+        }*/
 
         stage("Start Containers : with docker compose") {
             steps {
@@ -69,11 +69,11 @@ pipeline {
             }
         }
 
-        stage("docker compose down") {
+        /*stage("docker compose down") {
             steps {
                 sh "sudo docker compose down";
             }
-        }
+        }*/
     }
     post {
         always {
