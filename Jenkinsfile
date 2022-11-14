@@ -74,14 +74,10 @@ pipeline {
                 sh "sudo docker compose down";
             }
         }
-        stage("docker compose down") {
-            steps {
-                emailext body: '$DEFAULT_CONTENT', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: '$DEFAULT_SUBJECT'
-            }
-        }
     }
     post {
         always {
+            emailext body: '$DEFAULT_CONTENT', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: '$DEFAULT_SUBJECT'
             cleanWs()
         }
     }
