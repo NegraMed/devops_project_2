@@ -70,12 +70,12 @@ pipeline {
                 sh "sudo docker compose up -d";
             }
         }
-
+/*
         stage("docker compose down") {
             steps {
                 sh "sudo docker compose down";
             }   
-        }  
+        }  */
     }
     post {
         always {
