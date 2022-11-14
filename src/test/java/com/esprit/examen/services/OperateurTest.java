@@ -33,7 +33,7 @@ import com.esprit.examen.services.OperateurServiceImpl;
 
 
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class OperateurTest {
 
 
