@@ -1,4 +1,4 @@
-package com.esprit.examen.services.produit;
+package com.esprit.examen.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.any;
@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,9 +24,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.esprit.examen.entities.CategorieProduit;
 import com.esprit.examen.repositories.CategorieProduitRepository;
 import com.esprit.examen.services.CategorieProduitServiceImpl;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
-@ExtendWith(MockitoExtension.class)
+@Slf4j
 class CategorieProduitServiceImplMock {
 
 	@Mock
