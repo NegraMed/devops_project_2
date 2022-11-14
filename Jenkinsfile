@@ -56,12 +56,12 @@ pipeline {
             }
         }
         
-        stage('Deploy Image to DockerHub') {
-            steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
-                sh 'sudo docker push ahmedshili/tpachat';
-            }
-        }
+        //stage('Deploy Image to DockerHub') {
+            //steps {
+				//sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
+                //sh 'sudo docker push ahmedshili/tpachat';
+            //}
+        //}
 
         stage("Start Containers : with docker compose") {
             steps {
@@ -77,6 +77,7 @@ pipeline {
     }
     post {
         always {
+            emailext body: 'Jenkins Pipeline done successfully', recipientProviders: 'ahmed.shili@esprit.tn', subject: 'Jenkins Pipeline'
             cleanWs()
         }
     }
