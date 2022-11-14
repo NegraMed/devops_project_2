@@ -40,6 +40,7 @@ public class ProduitTest {
         int expected = Produits.size();
         Produit p = new Produit();
         p.setLibelleProduit("Produit test");
+        p.setCodeProduit("mmmmm");
         p.setPrix(10);
         Produit prod = ProduitService.addProduit(p);
         assertEquals(expected + 1, ProduitService.retrieveAllProduits().size());
