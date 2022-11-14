@@ -4,8 +4,7 @@ services:
     image : mysql/mysql-server:latest
     ports :
     - "3306:3306"
-    volumes:
-    - /home/mysqldata:/var/lib/mysql
+    
   service_app:
     image : oumazou/tpachatproject
     container_name:  tpachat
