@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.esprit.examen.entities.Produit;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.esprit.examen.entities.CategorieProduit;
@@ -36,57 +38,30 @@ class CategorieProduitServiceImplMock {
 	
 	@InjectMocks
 	CategorieProduitServiceImpl categorieProduitService;
+
+	@Autowired
+	ICategorieProduitService iCategorieProduitService;
 	
 	CategorieProduit cp = new CategorieProduit((long) 1, "abc","cat1", null);
-	
-	List<CategorieProduit> lcp = new ArrayList<CategorieProduit>() {
-		{
-		add(new CategorieProduit((long) 2, "abcd","cat2", null));
-		add(new CategorieProduit((long) 3, "abcdf","cat3", null));
-		}
-	};
 
-	
 	@Test
-	void testRetrieveAllCategorieProduits() {
-		 
-		Mockito.doReturn(lcp).when(categorieProduitRepository).findAll();
-	    List<CategorieProduit> actualProducts = categorieProduitService.retrieveAllCategorieProduits();
-	    assertThat(actualProducts).isEqualTo(lcp);
+	public void testAddCategories() {
+		List<CategorieProduit> categorieProduits = iCategorieProduitService.retrieveAllCategorieProduits();
+		int expected = categorieProduits.size();
+		CategorieProduit c = new CategorieProduit();
+		c.setCodeCategorie("Produit test");
+		c.setLibelleCategorie("zezez");
+		CategorieProduit cat = iCategorieProduitService.addCategorieProduit(c);
+		assertEquals(expected + 1, iCategorieProduitService.retrieveAllCategorieProduits().size());
+		assertNotNull(cat.getLibelleCategorie());
+		iCategorieProduitService.deleteCategorieProduit(cat.getIdCategorieProduit());
 	}
 
 	@Test
-	void testAddCategorieProduit() {
-        //CategorieProduit catP = categorieProduitService.addCategorieProduit(cp);
-        //assertThat(catP).isNotNull();
-		Mockito.when(categorieProduitRepository.save(Mockito.any(CategorieProduit.class))).thenReturn(cp);
-		CategorieProduit NewCP = categorieProduitService.addCategorieProduit(cp) ;
-		assertNotNull(NewCP);
-		assertEquals(NewCP, cp);
-
-	}
-
-	@Test
-	void testDeleteCategorieProduit()  {
-		categorieProduitService.deleteCategorieProduit((long) 1);;
-		Mockito.verify(categorieProduitRepository, times(1)).deleteById((long) 1);
-	}
-
-	@Test
-	void testUpdateCategorieProduit() {
-		Mockito.when(categorieProduitRepository.save(Mockito.any(CategorieProduit.class))).thenReturn(cp);
-		cp.setCodeCategorie("code");
-		CategorieProduit exisitingCP = categorieProduitService.updateCategorieProduit(cp) ;
-		
-		assertNotNull(exisitingCP);
-		assertEquals("code", cp.getCodeCategorie());
-	}
-
-	@Test
-	void testRetrieveCategorieProduit() {
+	public void MockAddStock() {
 		Mockito.when(categorieProduitRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(cp));
-		CategorieProduit cp1 = categorieProduitService.retrieveCategorieProduit((long)1);
-		Assertions.assertNotNull(cp1);
+		CategorieProduit c = categorieProduitService.retrieveCategorieProduit((long) 2);
+		assertNotNull(c);
+		log.info("get categorie" + c.toString());
 	}
-
 }
