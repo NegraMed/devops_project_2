@@ -13,7 +13,7 @@ pipeline {
                     url: "https://github.com/DevopsTeamGroupe2/devops_project_2.git";
             }
         }
-        /*
+        
         stage('Unit Testing : Test Dynamique Junit and  Mockito'){
             steps {
                 sh "mvn clean test -Ptest";
@@ -46,24 +46,24 @@ pipeline {
             }
         }
         
-        //stage('Deploy Artifact to Nexus') {
-           // steps {
-                //sh 'mvn deploy -Dmaven.test.skip=true -Pprod'
-            //}
-        //}
+        stage('Deploy Artifact to Nexus') {
+            steps {
+                sh 'mvn deploy -Dmaven.test.skip=true -Pprod'
+            }
+        }
 
-        //stage("Build Docker image from nexus repo") {
-            //steps {
-                //sh "sudo docker pull 192.168.1.50:8082/docker-hosted-validation/validation";
-            //}
-        //}
+        stage("Build Docker image from nexus repo") {
+            steps {
+                sh "sudo docker pull 192.168.1.50:8082/docker-hosted-validation/validation";
+            }
+        }
 
-        //stage('Deploy Image to DockerHub') {
-          //  steps {
-			//	sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
-              //  sh 'sudo docker push farjo/tpachat';
-            //}
-        //}
+        stage('Deploy Image to DockerHub') {
+            steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
+                sh 'sudo docker push farjo/tpachat';
+            }
+        }
 
         stage("Start Containers : with docker compose") {
             steps {
@@ -75,7 +75,7 @@ pipeline {
             steps {
                 sh "sudo docker compose down";
             }   
-        } */  
+        }  
     }
     post {
         always {
