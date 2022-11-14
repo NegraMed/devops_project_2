@@ -4,7 +4,7 @@ pipeline {
     environment{ 
         DOCKERHUB_CREDENTIALS=credentials('dockerhub')
     }
-
+/*
     stages {
         stage ('Git checkout branch') {
             steps {
@@ -75,11 +75,13 @@ pipeline {
             steps {
                 sh "sudo docker compose down";
             }   
-        }   
+        } */  
     }
     post {
         always {
-            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+            mail to: "ahmed.farjallah@esprit.tn",
+            subject: "Test Email",
+            body: "Test"
         }
     }
 
