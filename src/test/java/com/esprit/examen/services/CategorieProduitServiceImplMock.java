@@ -24,7 +24,7 @@ import com.esprit.examen.entities.CategorieProduit;
 import com.esprit.examen.repositories.CategorieProduitRepository;
 import com.esprit.examen.services.CategorieProduitServiceImpl;
 
-//@SpringBootTest
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class CategorieProduitServiceImplMock {
 
