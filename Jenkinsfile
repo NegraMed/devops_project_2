@@ -30,15 +30,15 @@ pipeline {
             }
         }
 
-        /*stage("Build Docker image") {
+        stage("Build Docker image") {
             steps {
                 sh "sudo docker build -t ahmedshili/tpachat .";
             }
-        }*/
+        }
 
         stage("Push Docker image to nexus Private Repo") {
             steps {
-                sh "sudo docker login -u admin -p nexus 192.168.1.100:8082/repository/docker-hosted-validation/";
+                sh "sudo docker login -u admin -p nexus 192.168.1.100:8082/repository/docker-hosted-validation";
                 sh "sudo docker tag ahmedshili/tpachat 192.168.1.100:8082/docker-hosted-validation/validation";
                 sh "sudo docker push 192.168.1.100:8082/docker-hosted-validation/validation";
             }
@@ -56,12 +56,12 @@ pipeline {
             }
         }
         
-        /*stage('Deploy Image to DockerHub') {
+        stage('Deploy Image to DockerHub') {
             steps {
 				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
                 sh 'sudo docker push ahmedshili/tpachat';
             }
-        }*/
+        }
 
         stage("Start Containers : with docker compose") {
             steps {
@@ -74,10 +74,14 @@ pipeline {
                 sh "sudo docker compose down";
             }
         }*/
+        stage("Send Email Notification") {
+            steps {
+                emailext body: '$DEFAULT_CONTENT', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: '$DEFAULT_SUBJECT'
+            }
+        }
     }
     post {
         always {
-            emailext body: '$DEFAULT_CONTENT', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: '$DEFAULT_SUBJECT'
             cleanWs()
         }
     }
