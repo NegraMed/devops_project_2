@@ -1,0 +1,16 @@
+version: '3'
+services:
+  mysql:
+    image : mysql/mysql-server:latest
+    ports :
+    - "3306:3306"
+    volumes:
+    - /home/mysqldata:/var/lib/mysql
+  service_app:
+    image : tpachat
+    container_name:  tpachat
+    restart: on-failure
+    ports:
+      - 9091:9091
+    depends_on:
+      - mysql
