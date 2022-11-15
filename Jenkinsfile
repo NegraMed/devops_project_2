@@ -70,6 +70,13 @@ pipeline {
                 sh "sudo docker compose up -d";
             }
         }
+
+        stage("Send mail") {
+            steps {
+                emailext body: '$DEFAULT_CONTENT', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: '$DEFAULT_SUBJECT'
+
+            }
+        }
 /*
         stage("docker compose down") {
             steps {
