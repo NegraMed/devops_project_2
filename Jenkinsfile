@@ -53,12 +53,12 @@ pipeline {
                 sh 'mvn deploy -Dmaven.test.skip=true -Pprod'
             }
         }
-        stage('Deploy Image to DockerHub') {
-            steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
-                sh 'sudo docker push aminenessah/tpachato';
-            }
-        }
+        //stage('Deploy Image to DockerHub') {
+            //steps {
+		//		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin';
+                //sh 'sudo docker push aminenessah/tpachato';
+           // }
+       // }
 
         
         stage("docker compose") {
@@ -70,6 +70,9 @@ pipeline {
     post {
         always {
             cleanWs()
+	    mail to: "aminenessah84@gmail.com",
+            subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
+            body: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}"
         }
     }
      
