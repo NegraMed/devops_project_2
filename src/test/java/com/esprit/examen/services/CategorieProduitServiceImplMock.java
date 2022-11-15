@@ -1,85 +1,89 @@
-/*package com.esprit.examen.services;
+package com.esprit.examen.services;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import com.esprit.examen.entities.CategorieClient;
-import com.esprit.examen.entities.Client;
-import com.esprit.examen.entities.Profession;
+import com.esprit.examen.entities.CategorieProduit;
+import com.esprit.examen.repositories.CategorieProduitRepository;
+import com.esprit.examen.services.CategorieProduitServiceImpl;
 
-import lombok.extern.slf4j.Slf4j;
+//@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+class CategorieProduitServiceImplMock {
 
-
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@Slf4j
-public class ClientServiceImplTest {
-	@Autowired
-	IClientService clientService;
+	@Mock
+	CategorieProduitRepository categorieProduitRepository;
+	
+	@InjectMocks
+	CategorieProduitServiceImpl categorieProduitService;
+	
+	CategorieProduit cp = new CategorieProduit((long) 1, "abc","cat1", null);
+	
+	List<CategorieProduit> lcp = new ArrayList<CategorieProduit>() {
+		{
+		add(new CategorieProduit((long) 2, "abcd","cat2", null));
+		add(new CategorieProduit((long) 3, "abcdf","cat3", null));
+		}
+	};
 
 	
 	@Test
-	public void testAddClient() throws ParseException {
-
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		Date dateNaissance = dateFormat.parse("30/09/2000");
-		Client c = new Client("Salhi", "Ahmed", dateNaissance, "ahmed.salhi@esprit.tn", "pwd", Profession.Cadre,
-				CategorieClient.Ordinaire);
-		Client client = clientService.addClient(c);
-		System.out.print("client "+client);
-		assertNotNull(client.getIdClient());
-		assertNotNull(client.getCategorieClient());
-		assertTrue(client.getNom().length() > 0);
-		clientService.deleteClient(client.getIdClient());
-
-	}
-	@Test
-	public void testDeleteClient() throws ParseException {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		Date dateNaissance = dateFormat.parse("30/09/2000");
-		Client c = new Client("Salhi", "Ahmed", dateNaissance, "ahmed.salhi@esprit.tn", "pwd", Profession.Cadre,
-				CategorieClient.Ordinaire);
-		Client client = clientService.addClient(c);
-		clientService.deleteClient(client.getIdClient());
-		assertNull(clientService.retrieveClient(client.getIdClient()));
+	void testRetrieveAllCategorieProduits() {
+		 
+		Mockito.doReturn(lcp).when(categorieProduitRepository).findAll();
+	    List<CategorieProduit> actualProducts = categorieProduitService.retrieveAllCategorieProduits();
+	    assertThat(actualProducts).isEqualTo(lcp);
 	}
 
 	@Test
-	public void testRetrieveAllClients() throws ParseException {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		Date dateNaissance = dateFormat.parse("30/09/2000");
-		List<Client> clients = clientService.retrieveAllClients();
-		int expected = clients.size();
-		Client c = new Client("Salhi", "Ahmed", dateNaissance, "ahmed.salhi@esprit.tn", "pwd", Profession.Cadre,
-				CategorieClient.Ordinaire);
-		Client client = clientService.addClient(c);
-		assertEquals(expected + 1, clientService.retrieveAllClients().size());
-		clientService.deleteClient(client.getIdClient());
+	void testAddCategorieProduit() {
+        //CategorieProduit catP = categorieProduitService.addCategorieProduit(cp);
+        //assertThat(catP).isNotNull();
+		Mockito.when(categorieProduitRepository.save(Mockito.any(CategorieProduit.class))).thenReturn(cp);
+		CategorieProduit NewCP = categorieProduitService.addCategorieProduit(cp) ;
+		assertNotNull(NewCP);
+		assertEquals(NewCP, cp);
 
 	}
-	@Test
-	public void testGetClientsByDateNaissance() throws ParseException
-	{
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		Date startDate = dateFormat.parse("28/09/2000");
-		Date endDate = dateFormat.parse("30/09/2005");
-		List<Client> clients = clientService.getClientsByDateNaissance(startDate, endDate);
-		log.info(" count" + clients.size());
-		for (Client client : clients) {
-			log.info(" client : " + client.getNom()+ " né le "+client.getDateNaissance());
 
-		}
+	@Test
+	void testDeleteCategorieProduit()  {
+		categorieProduitService.deleteCategorieProduit((long) 1);;
+		Mockito.verify(categorieProduitRepository, times(1)).deleteById((long) 1);
+	}
+
+	@Test
+	void testUpdateCategorieProduit() {
+		Mockito.when(categorieProduitRepository.save(Mockito.any(CategorieProduit.class))).thenReturn(cp);
+		cp.setCodeCategorie("code");
+		CategorieProduit exisitingCP = categorieProduitService.updateCategorieProduit(cp) ;
+		
+		assertNotNull(exisitingCP);
+		assertEquals("code", cp.getCodeCategorie());
+	}
+
+	@Test
+	void testRetrieveCategorieProduit() {
+		Mockito.when(categorieProduitRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(cp));
+		CategorieProduit cp1 = categorieProduitService.retrieveCategorieProduit((long)1);
+		Assertions.assertNotNull(cp1);
 	}
 
 }
-*/
